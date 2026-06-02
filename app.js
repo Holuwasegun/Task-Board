@@ -10,7 +10,9 @@ function loadState() {
 }
 
 function saveState(ts) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(ts));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ts));
+  } catch (_) { }
 }
 
 let tasks = loadState().map(t => ({
