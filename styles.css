@@ -1,48 +1,32 @@
-/* ===== Reset & Base ===== */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 :root {
-  /* Slate-navy background palette */
   --bg-primary: #1a2332;
   --bg-secondary: #1f2a3f;
   --bg-tertiary: #25324b;
-
-  /* Surface / card colours */
   --surface: #f0f4fc;
   --surface-alt: #e6edf8;
   --card-shadow: rgba(0, 0, 0, 0.25);
-
-  /* Accent blues */
   --accent: #2b7bff;
   --accent-hover: #1a62e0;
   --accent-glow: #4d94ff;
   --electric: #00b8d9;
-
-  /* Text */
   --text-primary: #1e293b;
   --text-secondary: #526580;
   --text-light: #94a3b8;
-
-  /* Status */
   --pending-dot: #f97316;
   --completed-dot: #22c55e;
-
-  /* Sizing */
   --sidebar-w: 380px;
   --radius: 12px;
   --radius-sm: 8px;
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-html {
-  height: 100%;
-}
+html { height: 100%; }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -57,7 +41,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ===== App Shell ===== */
 .app {
   display: flex;
   width: 100%;
@@ -67,7 +50,6 @@ body {
   gap: 24px;
 }
 
-/* ===== Main Workspace ===== */
 .workspace {
   flex: 1;
   min-width: 0;
@@ -80,7 +62,6 @@ body {
   box-shadow: 0 8px 32px var(--card-shadow);
 }
 
-/* ===== Header & Counter ===== */
 .header {
   display: flex;
   align-items: center;
@@ -123,11 +104,8 @@ body {
   transition: transform var(--transition);
 }
 
-.counter .number.flip {
-  transform: scale(1.15);
-}
+.counter .number.flip { transform: scale(1.15); }
 
-/* ===== Task Creation Form ===== */
 .task-form {
   background: var(--surface-alt);
   border-radius: var(--radius-sm);
@@ -137,9 +115,7 @@ body {
   transition: box-shadow var(--transition);
 }
 
-.task-form:focus-within {
-  box-shadow: 0 0 0 2px var(--accent);
-}
+.task-form:focus-within { box-shadow: 0 0 0 2px var(--accent); }
 
 .form-row {
   display: flex;
@@ -158,9 +134,7 @@ body {
   transition: box-shadow var(--transition);
 }
 
-.form-row input[type="text"]::placeholder {
-  color: var(--text-light);
-}
+.form-row input[type="text"]::placeholder { color: var(--text-light); }
 
 .form-row button {
   background: var(--accent);
@@ -175,13 +149,8 @@ body {
   transition: background var(--transition), transform 0.15s;
 }
 
-.form-row button:hover {
-  background: var(--accent-hover);
-}
-
-.form-row button:active {
-  transform: scale(0.97);
-}
+.form-row button:hover { background: var(--accent-hover); }
+.form-row button:active { transform: scale(0.97); }
 
 .form-expandable {
   max-height: 0;
@@ -212,13 +181,8 @@ body {
   transition: box-shadow var(--transition);
 }
 
-.form-expandable textarea:focus {
-  box-shadow: 0 0 0 2px var(--accent-glow);
-}
-
-.form-expandable textarea::placeholder {
-  color: var(--text-light);
-}
+.form-expandable textarea:focus { box-shadow: 0 0 0 2px var(--accent-glow); }
+.form-expandable textarea::placeholder { color: var(--text-light); }
 
 .expand-toggle {
   background: none;
@@ -233,20 +197,15 @@ body {
   transition: color var(--transition);
 }
 
-.expand-toggle:hover {
-  color: var(--accent);
-}
+.expand-toggle:hover { color: var(--accent); }
 
 .expand-toggle .arrow {
   display: inline-block;
   transition: transform 0.3s ease;
 }
 
-.expand-toggle .arrow.open {
-  transform: rotate(180deg);
-}
+.expand-toggle .arrow.open { transform: rotate(180deg); }
 
-/* ===== Day Picker ===== */
 .day-picker {
   display: flex;
   align-items: center;
@@ -266,9 +225,7 @@ body {
   gap: 6px;
 }
 
-.day-picker .day-icon {
-  font-size: 15px;
-}
+.day-picker .day-icon { font-size: 15px; }
 
 .day-picker input[type="date"] {
   border: 1px solid #dce3ed;
@@ -294,11 +251,8 @@ body {
   transition: opacity 0.2s;
 }
 
-.day-picker input[type="date"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
-}
+.day-picker input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 
-/* ===== Repetitive Toggle ===== */
 .repetitive-label {
   display: inline-flex;
   align-items: center;
@@ -319,11 +273,8 @@ body {
   accent-color: var(--accent);
 }
 
-.repetitive-label:hover {
-  color: var(--text-primary);
-}
+.repetitive-label:hover { color: var(--text-primary); }
 
-/* ===== Tab Bar ===== */
 .tabs {
   display: flex;
   gap: 0;
@@ -356,17 +307,9 @@ body {
   transition: transform var(--transition);
 }
 
-.tabs button.active {
-  color: var(--accent);
-}
-
-.tabs button.active::after {
-  transform: scaleX(1);
-}
-
-.tabs button:hover {
-  color: var(--accent);
-}
+.tabs button.active { color: var(--accent); }
+.tabs button.active::after { transform: scaleX(1); }
+.tabs button:hover { color: var(--accent); }
 
 .tab-badge {
   display: inline-block;
@@ -385,7 +328,6 @@ body {
   color: #fff;
 }
 
-/* ===== Task List ===== */
 .task-list-wrap {
   flex: 1;
   overflow-y: auto;
@@ -395,10 +337,7 @@ body {
   scrollbar-color: #cbd5e1 transparent;
 }
 
-.task-list-wrap::-webkit-scrollbar {
-  width: 5px;
-}
-
+.task-list-wrap::-webkit-scrollbar { width: 5px; }
 .task-list-wrap::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
@@ -411,7 +350,6 @@ body {
   padding-bottom: 8px;
 }
 
-/* ===== Task Item ===== */
 .task-item {
   background: #fff;
   border-radius: var(--radius-sm);
@@ -430,11 +368,8 @@ body {
   border-color: #dce3ed;
 }
 
-.task-item.completed {
-  opacity: 0.65;
-}
+.task-item.completed { opacity: 0.65; }
 
-/* Status toggle */
 .task-check {
   flex-shrink: 0;
   width: 22px;
@@ -450,9 +385,7 @@ body {
   transition: all var(--transition);
 }
 
-.task-check:hover {
-  border-color: var(--accent);
-}
+.task-check:hover { border-color: var(--accent); }
 
 .task-check.checked {
   background: var(--completed-dot);
@@ -480,7 +413,6 @@ body {
   border-radius: 50%;
 }
 
-/* Task body */
 .task-body {
   flex: 1;
   min-width: 0;
@@ -522,11 +454,8 @@ body {
   vertical-align: middle;
 }
 
-.rep-meta {
-  color: var(--electric);
-}
+.rep-meta { color: var(--electric); }
 
-/* Edit button */
 .task-edit {
   flex-shrink: 0;
   background: none;
@@ -540,15 +469,9 @@ body {
   transition: opacity var(--transition), color var(--transition);
 }
 
-.task-item:hover .task-edit {
-  opacity: 1;
-}
+.task-item:hover .task-edit { opacity: 1; }
+.task-edit:hover { color: var(--accent); }
 
-.task-edit:hover {
-  color: var(--accent);
-}
-
-/* Delete button */
 .task-del {
   flex-shrink: 0;
   background: none;
@@ -562,15 +485,9 @@ body {
   transition: opacity var(--transition), color var(--transition);
 }
 
-.task-item:hover .task-del {
-  opacity: 1;
-}
+.task-item:hover .task-del { opacity: 1; }
+.task-del:hover { color: #ef4444; }
 
-.task-del:hover {
-  color: #ef4444;
-}
-
-/* ===== Expanded Notes Panel (inline) ===== */
 .task-notes-expand {
   max-height: 0;
   overflow: hidden;
@@ -605,7 +522,6 @@ body {
   box-shadow: 0 0 0 2px rgba(43, 123, 255, 0.15);
 }
 
-/* ===== Sidebar ===== */
 .sidebar {
   width: var(--sidebar-w);
   flex-shrink: 0;
@@ -627,9 +543,7 @@ body {
   letter-spacing: -0.2px;
 }
 
-.sidebar h2 span {
-  color: var(--accent);
-}
+.sidebar h2 span { color: var(--accent); }
 
 .sidebar-metrics {
   flex-shrink: 0;
@@ -661,15 +575,9 @@ body {
   letter-spacing: 0.4px;
 }
 
-.metric-card.total .value {
-  color: var(--text-primary);
-}
+.metric-card.total .value { color: var(--text-primary); }
+.metric-card.completed-m .value { color: var(--completed-dot); }
 
-.metric-card.completed-m .value {
-  color: var(--completed-dot);
-}
-
-/* Sidebar — selected task deep notes */
 .sidebar-notes {
   flex: 1;
   display: flex;
@@ -747,10 +655,7 @@ body {
   color: #fff;
 }
 
-.btn-save-notes:hover {
-  background: var(--accent-hover);
-}
-
+.btn-save-notes:hover { background: var(--accent-hover); }
 .btn-save-notes:disabled {
   opacity: 0.4;
   cursor: default;
@@ -761,9 +666,7 @@ body {
   color: var(--text-secondary);
 }
 
-.btn-clear-notes:hover {
-  background: #dce3ed;
-}
+.btn-clear-notes:hover { background: #dce3ed; }
 
 .sidebar-notes .empty-state {
   flex: 1;
@@ -787,7 +690,6 @@ body {
   color: var(--text-light);
 }
 
-/* ===== Empty state for task list ===== */
 .empty-list {
   display: flex;
   flex-direction: column;
@@ -804,11 +706,8 @@ body {
   margin-bottom: 8px;
 }
 
-.empty-list p {
-  font-size: 14px;
-}
+.empty-list p { font-size: 14px; }
 
-/* ===== Edit Modal ===== */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -833,15 +732,8 @@ body {
 }
 
 @keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: translateY(-24px) scale(0.96);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(-24px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .modal-header {
@@ -869,9 +761,7 @@ body {
   transition: color var(--transition);
 }
 
-.modal-close:hover {
-  color: var(--text-primary);
-}
+.modal-close:hover { color: var(--text-primary); }
 
 .modal-body {
   padding: 20px 24px;
@@ -890,9 +780,7 @@ body {
   margin-top: 4px;
 }
 
-.modal-body label:first-child {
-  margin-top: 0;
-}
+.modal-body label:first-child { margin-top: 0; }
 
 .modal-body input[type="text"],
 .modal-body textarea {
@@ -943,29 +831,21 @@ body {
   color: #fff;
 }
 
-.modal-actions .btn-primary:hover {
-  background: var(--accent-hover);
-}
+.modal-actions .btn-primary:hover { background: var(--accent-hover); }
 
 .modal-actions .btn-secondary {
   background: #eef2f8;
   color: var(--text-secondary);
 }
 
-.modal-actions .btn-secondary:hover {
-  background: #dce3ed;
-}
+.modal-actions .btn-secondary:hover { background: #dce3ed; }
 
-/* ===== Header Actions ===== */
 .header-actions {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-/* ===== Responsive ===== */
-
-/* ---------- Tablet & small laptop (≤ 900px) ---------- */
 @media (max-width: 900px) {
   body {
     padding: 12px;
@@ -1009,18 +889,14 @@ body {
     margin-bottom: 20px;
   }
 
-  .header h1 {
-    font-size: 20px;
-  }
+  .header h1 { font-size: 20px; }
 
   .day-picker {
     flex-direction: row;
     align-items: center;
   }
 
-  .modal-overlay {
-    padding: 12px;
-  }
+  .modal-overlay { padding: 12px; }
 
   .modal-dialog {
     width: 100%;
@@ -1029,10 +905,8 @@ body {
     max-height: 90vh;
     border-radius: var(--radius-sm);
   }
-
 }
 
-/* ---------- Mobile (≤ 600px) ---------- */
 @media (max-width: 600px) {
   body {
     padding: 0;
@@ -1041,10 +915,7 @@ body {
     min-height: 100%;
   }
 
-  .app {
-    gap: 8px;
-    width: 100%;
-  }
+  .app { gap: 8px; width: 100%; }
 
   .workspace {
     border-radius: 0;
@@ -1069,13 +940,8 @@ body {
     gap: 10px;
   }
 
-  .header h1 {
-    font-size: 18px;
-  }
-
-  .header-actions {
-    gap: 10px;
-  }
+  .header h1 { font-size: 18px; }
+  .header-actions { gap: 10px; }
 
   .counter {
     padding: 6px 12px 6px 10px;
@@ -1090,7 +956,6 @@ body {
     padding: 0 6px;
   }
 
-  /* Task form */
   .task-form {
     padding: 18px 18px 14px;
     margin-bottom: 16px;
@@ -1112,24 +977,19 @@ body {
     width: 100%;
   }
 
-  .form-expandable.open {
-    max-height: 320px;
-  }
+  .form-expandable.open { max-height: 320px; }
 
   .form-expandable textarea {
     font-size: 13px;
     padding: 10px 14px;
   }
 
-  /* Day picker */
   .day-picker {
     margin-bottom: 12px;
     gap: 8px;
   }
 
-  .day-picker label {
-    font-size: 12px;
-  }
+  .day-picker label { font-size: 12px; }
 
   .day-picker input[type="date"] {
     padding: 8px 10px;
@@ -1137,10 +997,7 @@ body {
     flex: 1;
   }
 
-  /* Tabs */
-  .tabs {
-    margin-bottom: 14px;
-  }
+  .tabs { margin-bottom: 14px; }
 
   .tabs button {
     padding: 8px 16px;
@@ -1153,23 +1010,15 @@ body {
     margin-left: 4px;
   }
 
-  button, input, select, textarea, .task-item, .task-check {
-    touch-action: manipulation;
-  }
+  button, input, select, textarea, .task-item, .task-check { touch-action: manipulation; }
 
-  /* Task items */
   .task-item {
     padding: 12px 14px;
     gap: 10px;
   }
 
-  .task-body .title {
-    font-size: 14px;
-  }
-
-  .task-body .desc-preview {
-    font-size: 12px;
-  }
+  .task-body .title { font-size: 14px; }
+  .task-body .desc-preview { font-size: 12px; }
 
   .task-body .meta {
     font-size: 11px;
@@ -1186,24 +1035,16 @@ body {
     height: 8px;
   }
 
-  /* Always show edit/delete on touch devices */
   .task-edit,
   .task-del {
     opacity: 1;
     padding: 4px 8px;
   }
 
-  .task-del {
-    font-size: 18px;
-  }
+  .task-del { font-size: 18px; }
+  .task-edit { font-size: 16px; }
 
-  .task-edit {
-    font-size: 16px;
-  }
-
-  .task-notes-expand.open {
-    padding: 0 14px 12px 44px;
-  }
+  .task-notes-expand.open { padding: 0 14px 12px 44px; }
 
   .task-notes-expand textarea {
     font-size: 12px;
@@ -1211,7 +1052,6 @@ body {
     min-height: 44px;
   }
 
-  /* Sidebar */
   .sidebar h2 {
     font-size: 15px;
     margin-bottom: 14px;
@@ -1223,60 +1063,35 @@ body {
     margin-bottom: 20px;
   }
 
-  .metric-card {
-    padding: 16px 16px;
-  }
+  .metric-card { padding: 16px 16px; }
+  .metric-card .value { font-size: 24px; }
+  .metric-card .label { font-size: 13px; }
 
-  .metric-card .value {
-    font-size: 24px;
-  }
-
-  .metric-card .label {
-    font-size: 13px;
-  }
-
-  .sidebar-notes {
-    max-height: 380px;
-  }
+  .sidebar-notes { max-height: 380px; }
 
   .sidebar-notes textarea {
     font-size: 13px;
     min-height: 80px;
   }
 
-  .sidebar-notes .notes-header {
-    font-size: 12px;
-  }
+  .sidebar-notes .notes-header { font-size: 12px; }
+  .sidebar-notes .selected-title { font-size: 14px; }
 
-  .sidebar-notes .selected-title {
-    font-size: 14px;
-  }
-
-  /* Modal */
-  .modal-overlay {
-    padding: 8px;
-  }
-
-  .modal-dialog {
-    border-radius: var(--radius-sm);
-  }
+  .modal-overlay { padding: 8px; }
+  .modal-dialog { border-radius: var(--radius-sm); }
 
   .modal-header {
     padding: 16px 18px 0;
   }
 
-  .modal-header h3 {
-    font-size: 16px;
-  }
+  .modal-header h3 { font-size: 16px; }
 
   .modal-body {
     padding: 16px 18px;
     gap: 8px;
   }
 
-  .modal-body label {
-    font-size: 11px;
-  }
+  .modal-body label { font-size: 11px; }
 
   .modal-body input[type="text"],
   .modal-body textarea {
@@ -1284,30 +1099,19 @@ body {
     font-size: 13px;
   }
 
-  .modal-actions {
-    padding: 0 18px 16px;
-  }
-
+  .modal-actions { padding: 0 18px 16px; }
 }
 
-/* ---------- Small phone (≤ 400px) ---------- */
 @media (max-width: 400px) {
-  .header {
-    gap: 8px;
-  }
-
-  .header-actions {
-    gap: 8px;
-  }
+  .header { gap: 8px; }
+  .header-actions { gap: 8px; }
 
   .day-picker {
     flex-wrap: wrap;
     gap: 6px;
   }
 
-  .day-picker label {
-    font-size: 11px;
-  }
+  .day-picker label { font-size: 11px; }
 
   .day-picker input[type="date"] {
     flex: 1;
@@ -1319,24 +1123,16 @@ body {
     gap: 10px;
   }
 
-  .metric-card .value {
-    font-size: 22px;
-  }
+  .metric-card .value { font-size: 22px; }
 
-  .metric-card {
-    padding: 12px 14px;
-  }
+  .metric-card { padding: 12px 14px; }
 
   .tabs button {
     padding: 10px 12px;
     font-size: 12px;
   }
 
-  .sidebar-notes {
-    max-height: 320px;
-  }
+  .sidebar-notes { max-height: 320px; }
 
-  .task-notes-expand.open {
-    padding: 0 10px 10px 40px;
-  }
+  .task-notes-expand.open { padding: 0 10px 10px 40px; }
 }

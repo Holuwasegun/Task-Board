@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,15 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-
   <div class="app" id="appShell" role="application" aria-label="Task Dashboard">
-
-    <!-- ===== Main Workspace ===== -->
     <main class="workspace">
-
-      <!-- Header + Pending Counter -->
       <div class="header">
         <h1>&#9776; Task Board</h1>
         <div class="header-actions">
@@ -28,22 +21,17 @@
             Pending
             <span class="number" id="pendingCount">0</span>
           </div>
-
         </div>
       </div>
 
-      <!-- Task Creation Form -->
       <form class="task-form" id="taskForm" autocomplete="off">
         <div class="form-row">
-          <input type="text" id="taskTitleInput" placeholder="What needs to be done?" aria-label="New task title"
-            required />
+          <input type="text" id="taskTitleInput" placeholder="What needs to be done?" aria-label="New task title" required />
           <button type="submit" id="addBtn">Add Task</button>
         </div>
         <div class="form-expandable" id="formExpand">
-          <textarea id="taskDescInput" placeholder="Brief description (optional)" rows="2"
-            aria-label="Task description"></textarea>
-          <textarea id="taskNotesInput" placeholder="Initial notes for this task (optional)" rows="2"
-            aria-label="Initial notes" style="margin-top:8px;"></textarea>
+          <textarea id="taskDescInput" placeholder="Brief description (optional)" rows="2" aria-label="Task description"></textarea>
+          <textarea id="taskNotesInput" placeholder="Initial notes for this task (optional)" rows="2" aria-label="Initial notes" style="margin-top:8px;"></textarea>
           <label class="repetitive-label">
             <input type="checkbox" id="repetitiveCheck" />
             <span>&#128259;</span> Repeat daily
@@ -55,7 +43,6 @@
         </button>
       </form>
 
-      <!-- Day Picker -->
       <div class="day-picker" id="dayPicker">
         <label>
           <span class="day-icon">&#128197;</span> Working on
@@ -63,7 +50,6 @@
         <input type="date" id="selectedDate" aria-label="Select day" title="Select day" />
       </div>
 
-      <!-- Tabs -->
       <div class="tabs" role="tablist">
         <button role="tab" aria-selected="true" class="active" data-tab="pending" id="tabPending">
           Pending <span class="tab-badge" id="pendingBadge">0</span>
@@ -73,15 +59,12 @@
         </button>
       </div>
 
-      <!-- Task List Container -->
       <div class="task-list-wrap">
         <div class="task-list" id="taskList"></div>
       </div>
     </main>
 
-    <!-- ===== Sidebar : Metrics & Deep Notes ===== -->
     <aside class="sidebar" role="complementary" aria-label="Pending metrics and notes">
-
       <h2>&#128202; <span>Pending</span> Metrics</h2>
 
       <div class="sidebar-metrics">
@@ -103,7 +86,6 @@
         </div>
       </div>
 
-      <!-- Deep Notes Panel -->
       <div class="sidebar-notes" id="sidebarNotes">
         <div class="notes-header">
           &#128221; Deep Notes
@@ -117,7 +99,7 @@
         <div id="notesActive" style="display:none; flex-direction:column; flex:1; min-height:0;">
           <div class="selected-title" id="selectedTaskTitle"></div>
           <textarea id="notesTextarea"
-            placeholder="Add detailed notes about why this task is pending, next steps, or any context…"></textarea>
+            placeholder="Add detailed notes about why this task is pending, next steps, or any context&#8230;"></textarea>
           <div class="notes-actions">
             <button class="btn-save-notes" id="saveNotesBtn" disabled>Save Notes</button>
             <button class="btn-clear-notes" id="clearNotesBtn">Clear</button>
@@ -127,7 +109,6 @@
     </aside>
   </div>
 
-  <!-- Edit Task Modal -->
   <div class="modal-overlay" id="editModal" style="display:none;">
     <div class="modal-dialog">
       <div class="modal-header">
@@ -151,5 +132,4 @@
 
   <script src="app.js"></script>
 </body>
-
 </html>
