@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <div class="app" id="appShell" role="application" aria-label="Task Dashboard">
     <main class="workspace">
@@ -26,12 +28,15 @@
 
       <form class="task-form" id="taskForm" autocomplete="off">
         <div class="form-row">
-          <input type="text" id="taskTitleInput" placeholder="What needs to be done?" aria-label="New task title" required />
+          <input type="text" id="taskTitleInput" placeholder="What needs to be done?" aria-label="New task title"
+            required />
           <button type="submit" id="addBtn">Add Task</button>
         </div>
         <div class="form-expandable" id="formExpand">
-          <textarea id="taskDescInput" placeholder="Brief description (optional)" rows="2" aria-label="Task description"></textarea>
-          <textarea id="taskNotesInput" placeholder="Initial notes for this task (optional)" rows="2" aria-label="Initial notes" style="margin-top:8px;"></textarea>
+          <textarea id="taskDescInput" placeholder="Brief description (optional)" rows="2"
+            aria-label="Task description"></textarea>
+          <textarea id="taskNotesInput" placeholder="Initial notes for this task (optional)" rows="2"
+            aria-label="Initial notes" style="margin-top:8px;"></textarea>
           <label class="repetitive-label">
             <input type="checkbox" id="repetitiveCheck" />
             <span>&#128259;</span> Repeat daily
@@ -132,4 +137,5 @@
 
   <script src="app.js"></script>
 </body>
+
 </html>

@@ -1136,3 +1136,17 @@ body {
 
   .task-notes-expand.open { padding: 0 10px 10px 40px; }
 }
+
+.page-access-counter {
+  position: fixed;
+  bottom: 8px;
+  right: 10px;
+  font-size: 10px;
+  color: #888;
+  background: rgba(255,255,255,0.85);
+  padding: 2px 7px;
+  border-radius: 6px;
+  z-index: 999;
+  pointer-events: none;
+  user-select: none;
+}

@@ -1,10 +1,11 @@
 const STORAGE_KEY = 'taskDashboardState';
+const PAGE_ACCESS_KEY = 'pageAccessCount';
 
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return JSON.parse(raw);
-  } catch (_) {}
+  } catch (_) { }
   return [];
 }
 
@@ -287,7 +288,26 @@ function updateTabUI() {
   });
 }
 
+function getPageAccessCount() {
+  try {
+    const raw = localStorage.getItem(PAGE_ACCESS_KEY);
+    return raw ? parseInt(raw, 10) : 0;
+  } catch (_) {
+    return 0;
+  }
+}
+
+function incrementPageAccessCount() {
+  const count = getPageAccessCount() + 1;
+  try {
+    localStorage.setItem(PAGE_ACCESS_KEY, count.toString());
+  } catch (_) { }
+  const el = document.getElementById('pageAccessCount');
+  if (el) el.textContent = count;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+  incrementPageAccessCount();
   const dayPicker = document.getElementById('selectedDate');
   dayPicker.value = selectedDate;
   dayPicker.addEventListener('change', function () {
