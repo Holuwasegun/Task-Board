@@ -913,6 +913,7 @@ body {
     align-items: stretch;
     height: auto;
     min-height: 100%;
+    background: #fff;
   }
 
   .app { gap: 8px; width: 100%; }
