@@ -922,6 +922,7 @@ body {
     border-radius: 0;
     padding: 20px 18px;
     box-shadow: none;
+    background: #fff;
   }
 
   .task-list-wrap {
@@ -934,6 +935,7 @@ body {
     border-radius: 0;
     padding: 20px 18px;
     box-shadow: none;
+    background: #fff;
   }
 
   .header {
@@ -968,7 +970,7 @@ body {
   }
 
   .form-row input[type="text"] {
-    padding: 16px 16px;
+    padding: 16px;
     font-size: 16px;
   }
 
@@ -1064,7 +1066,7 @@ body {
     margin-bottom: 20px;
   }
 
-  .metric-card { padding: 16px 16px; }
+  .metric-card { padding: 16px; }
   .metric-card .value { font-size: 24px; }
   .metric-card .label { font-size: 13px; }
 
@@ -1119,10 +1121,7 @@ body {
     min-width: 0;
   }
 
-  .sidebar-metrics {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
+  .sidebar-metrics { gap: 10px; }
 
   .metric-card .value { font-size: 22px; }
 
