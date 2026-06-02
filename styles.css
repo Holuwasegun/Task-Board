@@ -1293,14 +1293,11 @@ body {
 /* ---------- Small phone (≤ 400px) ---------- */
 @media (max-width: 400px) {
   .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    gap: 8px;
   }
 
   .header-actions {
-    width: 100%;
-    justify-content: space-between;
+    gap: 8px;
   }
 
   .day-picker {
