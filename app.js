@@ -266,8 +266,20 @@ function playNotificationSound() {
   } catch (_) {}
 }
 
+function showSystemNotification(task, minutesBefore) {
+  if (!('Notification' in window)) return;
+  if (Notification.permission !== 'granted') return;
+  try {
+    new Notification('Task Board - ' + minutesBefore + ' min warning', {
+      body: task.title + ' at ' + formatTime(task.taskTime),
+      tag: task.id + ':' + minutesBefore,
+    });
+  } catch (_) {}
+}
+
 function showTaskNotification(task, minutesBefore) {
   playNotificationSound();
+  showSystemNotification(task, minutesBefore);
   const container = document.getElementById('notificationContainer');
   const toast = document.createElement('div');
   toast.className = 'notification-toast';
@@ -572,6 +584,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (_primed) return;
     _primed = true;
     primeAudio();
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
     document.removeEventListener('click', _onFirstInteraction, true);
     document.removeEventListener('keydown', _onFirstInteraction, true);
     document.removeEventListener('touchstart', _onFirstInteraction, true);
