@@ -250,16 +250,19 @@ function playNotificationSound() {
   primeAudio();
   if (!_audioCtx) return;
   try {
-    var osc = _audioCtx.createOscillator();
-    var gain = _audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(_audioCtx.destination);
-    osc.frequency.value = 800;
-    osc.type = 'sine';
-    gain.gain.value = 0.25;
-    osc.start();
-    gain.gain.exponentialRampToValueAtTime(0.001, _audioCtx.currentTime + 0.3);
-    osc.stop(_audioCtx.currentTime + 0.3);
+    var now = _audioCtx.currentTime;
+    for (var i = 0; i < 3; i++) {
+      var osc = _audioCtx.createOscillator();
+      var gain = _audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(_audioCtx.destination);
+      osc.frequency.value = 880;
+      osc.type = 'square';
+      gain.gain.setValueAtTime(0.3, now + i * 0.35);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.35 + 0.2);
+      osc.start(now + i * 0.35);
+      osc.stop(now + i * 0.35 + 0.2);
+    }
   } catch (_) {}
 }
 
