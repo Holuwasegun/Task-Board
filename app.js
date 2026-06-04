@@ -19,6 +19,7 @@ let tasks = loadState().map(t => ({
   ...t,
   taskDate: t.taskDate || toLocalDate(t.dateCreated),
   isRepetitive: t.isRepetitive || false,
+  taskTime: t.taskTime || '',
 }));
 
 let selectedTaskId = null;
@@ -33,6 +34,15 @@ function uid() {
 
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatTime(time) {
+  if (!time) return '';
+  const [h, m] = time.split(':');
+  const hour = parseInt(h, 10);
+  const amPm = hour >= 12 ? 'PM' : 'AM';
+  const hour12 = hour % 12 || 12;
+  return `${hour12}:${m} ${amPm}`;
 }
 
 function toLocalDate(iso) {
@@ -110,6 +120,7 @@ function renderTaskList() {
           ${task.description ? `<div class="desc-preview">${escapeHtml(task.description)}</div>` : ''}
           <div class="meta">
             <span>${formatDate(task.dateCreated)}</span>
+            ${task.taskTime ? `<span class="time-meta">&#128338; ${formatTime(task.taskTime)}</span>` : ''}
             ${task.isRepetitive ? '<span class="rep-meta">&#128259; Repeats daily</span>' : ''}
             ${notes ? '<span>&#128221; has notes</span>' : ''}
           </div>
@@ -151,6 +162,144 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+const NOTIFY_KEY = 'taskNotifiedSet';
+
+function loadNotifiedTasks() {
+  try {
+    const raw = sessionStorage.getItem(NOTIFY_KEY);
+    if (raw) return new Set(JSON.parse(raw));
+  } catch (_) {}
+  return new Set();
+}
+
+function saveNotifiedTasks(set) {
+  try {
+    sessionStorage.setItem(NOTIFY_KEY, JSON.stringify([...set]));
+  } catch (_) {}
+}
+
+let notifiedTasks = loadNotifiedTasks();
+
+function getTodayDateStr() {
+  const d = new Date();
+  return d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
+}
+
+function getMinutesSinceMidnight() {
+  const d = new Date();
+  return d.getHours() * 60 + d.getMinutes();
+}
+
+function checkScheduledTasks() {
+  const today = getTodayDateStr();
+  const nowMinutes = getMinutesSinceMidnight();
+
+  for (const task of tasks) {
+    if (task.status !== 'pending') continue;
+    if (!task.taskTime) continue;
+    if (task.taskDate !== today && !task.isRepetitive) continue;
+
+    const [h, m] = task.taskTime.split(':');
+    const taskMinutes = parseInt(h, 10) * 60 + parseInt(m, 10);
+    const diff = taskMinutes - nowMinutes;
+
+    if (diff >= 0 && diff <= 5) {
+      const key = task.id + ':' + today + ':5';
+      if (!notifiedTasks.has(key)) {
+        notifiedTasks.add(key);
+        saveNotifiedTasks(notifiedTasks);
+        showTaskNotification(task, '5');
+      }
+    } else if (diff > 5 && diff <= 10) {
+      const key = task.id + ':' + today + ':10';
+      if (!notifiedTasks.has(key)) {
+        notifiedTasks.add(key);
+        saveNotifiedTasks(notifiedTasks);
+        showTaskNotification(task, '10');
+      }
+    }
+  }
+
+  cleanupNotifiedTasks(today);
+}
+
+function cleanupNotifiedTasks(today) {
+  let changed = false;
+  for (const key of notifiedTasks) {
+    const [, date] = key.split(':');
+    if (date !== today) {
+      notifiedTasks.delete(key);
+      changed = true;
+    }
+  }
+  if (changed) saveNotifiedTasks(notifiedTasks);
+}
+
+var _audioCtx = null;
+
+function primeAudio() {
+  if (!_audioCtx) {
+    try { _audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (_) {}
+  }
+  if (_audioCtx && _audioCtx.state === 'suspended') _audioCtx.resume();
+}
+
+function playNotificationSound() {
+  primeAudio();
+  if (!_audioCtx) return;
+  try {
+    var osc = _audioCtx.createOscillator();
+    var gain = _audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(_audioCtx.destination);
+    osc.frequency.value = 800;
+    osc.type = 'sine';
+    gain.gain.value = 0.25;
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.001, _audioCtx.currentTime + 0.3);
+    osc.stop(_audioCtx.currentTime + 0.3);
+  } catch (_) {}
+}
+
+function showTaskNotification(task, minutesBefore) {
+  playNotificationSound();
+  const container = document.getElementById('notificationContainer');
+  const toast = document.createElement('div');
+  toast.className = 'notification-toast';
+  toast.innerHTML =
+    '<div class="nt-icon">&#9200;</div>' +
+    '<div class="nt-body">' +
+      '<div class="nt-title">' + minutesBefore + ' min warning</div>' +
+      '<div class="nt-text">' + escapeHtml(task.title) + '</div>' +
+      '<div class="nt-time">&#128338; ' + formatTime(task.taskTime) + '</div>' +
+    '</div>' +
+    '<button class="nt-close">&times;</button>';
+
+  toast.querySelector('.nt-close').addEventListener('click', function () {
+    toast.classList.remove('show');
+    setTimeout(function () { if (toast.parentNode) toast.remove(); }, 300);
+  });
+
+  container.appendChild(toast);
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () { toast.classList.add('show'); });
+  });
+
+  setTimeout(function () {
+    if (toast.parentNode) {
+      toast.classList.remove('show');
+      setTimeout(function () { if (toast.parentNode) toast.remove(); }, 300);
+    }
+  }, 8000);
+}
+
+function setupNotificationInterval() {
+  checkScheduledTasks();
+  setInterval(checkScheduledTasks, 30000);
+}
+
 function selectTaskForNotes(taskId) {
   if (selectedTaskId === taskId) { deselectNotes(); return; }
   const task = tasks.find(t => t.id === taskId);
@@ -178,7 +327,7 @@ function updateNotesPanel(task) {
   document.getElementById('saveNotesBtn').disabled = true;
 }
 
-function addTask(title, description, notes, isRepetitive) {
+function addTask(title, description, notes, isRepetitive, taskTime) {
   const task = {
     id: uid(),
     title: title.trim(),
@@ -188,6 +337,7 @@ function addTask(title, description, notes, isRepetitive) {
     taskDate: selectedDate,
     notes: (notes || '').trim(),
     isRepetitive: !!isRepetitive,
+    taskTime: taskTime || '',
   };
   tasks.push(task);
   saveState(tasks);
@@ -241,6 +391,7 @@ function openEditModal(taskId) {
   document.getElementById('editTitleInput').value = task.title;
   document.getElementById('editDescInput').value = task.description || '';
   document.getElementById('editNotesInput').value = task.notes || '';
+  document.getElementById('editTimeInput').value = task.taskTime || '';
   document.getElementById('editModal').style.display = 'flex';
   document.getElementById('editTitleInput').focus();
   document.getElementById('editTitleInput').select();
@@ -260,6 +411,7 @@ function saveEdit() {
   task.title = title;
   task.description = document.getElementById('editDescInput').value.trim();
   task.notes = document.getElementById('editNotesInput').value.trim();
+  task.taskTime = document.getElementById('editTimeInput').value || '';
   saveState(tasks);
   closeEditModal();
   render();
@@ -269,6 +421,7 @@ function clearForm() {
   document.getElementById('taskTitleInput').value = '';
   document.getElementById('taskDescInput').value = '';
   document.getElementById('taskNotesInput').value = '';
+  document.getElementById('taskTimeInput').value = '';
   document.getElementById('repetitiveCheck').checked = false;
   document.getElementById('taskTitleInput').focus();
 }
@@ -325,7 +478,8 @@ document.addEventListener('DOMContentLoaded', function () {
     addTask(title,
       document.getElementById('taskDescInput').value,
       document.getElementById('taskNotesInput').value,
-      document.getElementById('repetitiveCheck').checked);
+      document.getElementById('repetitiveCheck').checked,
+      document.getElementById('taskTimeInput').value);
   });
 
   document.getElementById('expandToggle').addEventListener('click', toggleFormExpand);
@@ -406,6 +560,20 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.key === 'Escape' && selectedTaskId) deselectNotes();
   });
 
+  setupNotificationInterval();
   render();
   updateTabUI();
+
+  var _primed = false;
+  function _onFirstInteraction() {
+    if (_primed) return;
+    _primed = true;
+    primeAudio();
+    document.removeEventListener('click', _onFirstInteraction, true);
+    document.removeEventListener('keydown', _onFirstInteraction, true);
+    document.removeEventListener('touchstart', _onFirstInteraction, true);
+  }
+  document.addEventListener('click', _onFirstInteraction, true);
+  document.addEventListener('keydown', _onFirstInteraction, true);
+  document.addEventListener('touchstart', _onFirstInteraction, true);
 });
